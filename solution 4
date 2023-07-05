@@ -1,0 +1,67 @@
+#creating table in mysqal#
+create database score;
+use score;
+create table question(
+  id int(11) auto_increment,
+  question varchar(255),
+  option1 varchar(200),
+  option2 varchar(400),
+  option3 varchar(300),
+  option4 varchar(200),
+  answer int,
+  primary key(id)
+);
+insert into question(question,option1,option2,option3,option4,answer)values
+("what is national flower?","rose","lotus","lilly","jashmin",2),
+("what is national animal?","pig","elephant","tiger","dog",3),
+("what is national fruit?","mango","apple","banana","orange",1),
+("what is national sports?","football","cricket","volyball","hockey",4);
+select*from question;
+
+
+#connecting python#
+import mysql.connector
+mydb=mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="root",
+    database="score"
+)
+cursor=mydb.cursor()
+
+#mycursor.execute("show database")
+def display_question():
+    query=("select*from question")
+    cursor.execute(query)
+    questions=cursor.fetchall()
+    for quest in questions:
+        print("Questions:",quest[1])
+        print("options:")
+        print("1.",quest[2])
+        print("2.",quest[3])
+        print("3.",quest[4])
+        print("4.",quest[5])
+        print()
+def take_quiz():
+    score=0
+    query=("select*from question")
+    cursor.execute(query)
+    question=cursor.fetchall()
+    for quest in question:
+        print("Questions:",quest[1])
+        print("options:")
+        print("1.",quest[2])
+        print("2.",quest[3])
+        print("3.",quest[4])
+        print("4.",quest[5])
+        print("Enter your answer(1-4):")
+        user_ans=int(input())
+        if user_ans==quest[6]:
+            score+=1 
+    return score
+print("question:")
+display_question()
+print("answer:")
+user_score=take_quiz()
+print("your score is",user_score) 
+
